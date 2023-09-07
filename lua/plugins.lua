@@ -3,6 +3,10 @@ return {
 	{"neovim/nvim-lspconfig",
 		config = function() 
 		local capabilities = require('cmp_nvim_lsp').default_capabilities()
+		    require("lspconfig").tsserver.setup({
+      capabilities = capabilities
+    })
+
 		end
 	},
 	{
@@ -99,6 +103,14 @@ return {
 		"hrsh7th/nvim-cmp",
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
-		}
+		},
+		config = function() 
+
+require("cmp").setup({
+      sources = {
+        { name = "nvim_lsp" }
+      },
+    })
+		end
 	},
 }
