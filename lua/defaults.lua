@@ -6,4 +6,9 @@ opt.number = true
 opt.guifont = { "Fira Code", "h12" }
 vim.g.mapleader = " "
 opt.termguicolors = true
+vim.opt.cindent = true
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.tabstop = 2
+
 require("moonlight").set()

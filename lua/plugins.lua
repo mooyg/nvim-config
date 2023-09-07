@@ -1,7 +1,22 @@
 return {
-	"nvim-telescope/telescope.nvim",
 	"nvim-lua/plenary.nvim",
-	"neovim/nvim-lspconfig",
+	{"neovim/nvim-lspconfig",
+		config = function() 
+		local capabilities = require('cmp_nvim_lsp').default_capabilities()
+		end
+	},
+	{
+		"nvim-telescope/telescope.nvim",
+		config = function() 
+		require("telescope").setup{
+				pickers = {
+					find_files = {
+      find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git", "--strip-cwd-prefix" },
+					},
+				},
+			}
+		end
+	},
 	{
 		"nvim-treesitter/nvim-treesitter",
 		cmd = { "TSInstall", "TSUpdate", "TSUninstall" },
@@ -45,6 +60,9 @@ return {
 	"nvim-tree/nvim-web-devicons",
 	{
 		"nvim-tree/nvim-tree.lua",
+	  filters = {
+            git_ignored = true,
+        },
 		config = function()
 			require("nvim-tree").setup()
 		end,
@@ -72,8 +90,15 @@ return {
 	{
 		"williamboman/mason.nvim",
 		cmd = "Mason",
+		lazy = false,
 		config = function()
 			require("mason").setup()
 		end,
+	},
+	{
+		"hrsh7th/nvim-cmp",
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp",
+		}
 	},
 }
