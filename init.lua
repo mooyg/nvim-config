@@ -16,4 +16,15 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins, opts)
 require("defaults")
 require("keymaps")
-
+vim.cmd([[
+augroup FormatAutogroup
+  autocmd!
+  autocmd BufWritePost * FormatWrite
+augroup END
+]])
+vim.cmd([[
+augroup FormatAutogroup
+  autocmd!
+  autocmd BufWritePost * FormatWrite
+augroup END
+]])

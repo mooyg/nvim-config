@@ -105,12 +105,43 @@ return {
 			"hrsh7th/cmp-nvim-lsp",
 		},
 		config = function() 
-
-require("cmp").setup({
+			local cmp = require('cmp')
+			cmp.setup({
       sources = {
         { name = "nvim_lsp" }
       },
+				mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+			 ["<C-p>"] = cmp.mapping.select_prev_item(),
+      ["<C-n>"] = cmp.mapping.select_next_item(),
+    }),
+
     })
+		end,
+	},
+	{
+		"mhartington/formatter.nvim",
+		config = function() 
+		require('formatter').setup({
+				filetype = {
+					typescript = {
+						require("formatter.filetypes.typescript").prettierd
+					},
+					javascript = {
+						require("formatter.filetypes.javascript").prettierd
+					},
+					typescriptreact = {
+						require("formatter.filetypes.typescriptreact").prettierd
+					},
+					javascriptreact = {
+						require("formatter.filetypes.javascriptreact").prettierd
+					},
+				},
+			})
 		end
 	},
 }
