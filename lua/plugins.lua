@@ -1,25 +1,25 @@
 return {
 	"nvim-lua/plenary.nvim",
-	{"neovim/nvim-lspconfig",
-		config = function() 
-		local capabilities = require('cmp_nvim_lsp').default_capabilities()
-		    require("lspconfig").tsserver.setup({
-      capabilities = capabilities
-    })
-
-		end
+	{
+		"neovim/nvim-lspconfig",
+		config = function()
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			require("lspconfig").tsserver.setup({
+				capabilities = capabilities,
+			})
+		end,
 	},
 	{
 		"nvim-telescope/telescope.nvim",
-		config = function() 
-		require("telescope").setup{
+		config = function()
+			require("telescope").setup({
 				pickers = {
 					find_files = {
-      find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git", "--strip-cwd-prefix" },
+						find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git", "--strip-cwd-prefix" },
 					},
 				},
-			}
-		end
+			})
+		end,
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -64,9 +64,9 @@ return {
 	"nvim-tree/nvim-web-devicons",
 	{
 		"nvim-tree/nvim-tree.lua",
-	  filters = {
-            git_ignored = true,
-        },
+		filters = {
+			git_ignored = true,
+		},
 		config = function()
 			require("nvim-tree").setup()
 		end,
@@ -104,44 +104,49 @@ return {
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 		},
-		config = function() 
-			local cmp = require('cmp')
+		config = function()
+			local cmp = require("cmp")
 			cmp.setup({
-      sources = {
-        { name = "nvim_lsp" }
-      },
+				sources = {
+					{ name = "nvim_lsp" },
+				},
 				mapping = cmp.mapping.preset.insert({
-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete(),
-      ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-			 ["<C-p>"] = cmp.mapping.select_prev_item(),
-      ["<C-n>"] = cmp.mapping.select_next_item(),
-    }),
-
-    })
+					["<C-b>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<C-Space>"] = cmp.mapping.complete(),
+					["<C-e>"] = cmp.mapping.abort(),
+					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+					["<C-p>"] = cmp.mapping.select_prev_item(),
+					["<C-n>"] = cmp.mapping.select_next_item(),
+				}),
+			})
 		end,
 	},
 	{
 		"mhartington/formatter.nvim",
-		config = function() 
-		require('formatter').setup({
+		config = function()
+			require("formatter").setup({
 				filetype = {
 					typescript = {
-						require("formatter.filetypes.typescript").prettierd
+						require("formatter.filetypes.typescript").prettierd,
 					},
 					javascript = {
-						require("formatter.filetypes.javascript").prettierd
+						require("formatter.filetypes.javascript").prettierd,
 					},
 					typescriptreact = {
-						require("formatter.filetypes.typescriptreact").prettierd
+						require("formatter.filetypes.typescriptreact").prettierd,
 					},
 					javascriptreact = {
-						require("formatter.filetypes.javascriptreact").prettierd
+						require("formatter.filetypes.javascriptreact").prettierd,
 					},
 				},
 			})
-		end
+		end,
+	},
+	{
+		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+		config = function()
+			require("lsp_lines").setup()
+		end,
 	},
 }
