@@ -10,5 +10,6 @@ vim.opt.cindent = true
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
 vim.opt.tabstop = 2
-
+opt.signcolumn = "yes"
+opt.relativenumber = true
 require("moonlight").set()
