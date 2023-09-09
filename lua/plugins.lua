@@ -7,6 +7,15 @@ return {
 			require("lspconfig").tsserver.setup({
 				capabilities = capabilities,
 			})
+			require("lspconfig").tailwindcss.setup({
+				capabilities = capabilities,
+			})
+			require("lspconfig").svelteserver.setup({
+				capabilities = capabilities,
+			})
+			require("lspconfig").jsonls.setup({
+				capabilities = capabilities,
+			})
 		end,
 	},
 	{
@@ -49,6 +58,7 @@ return {
 					"vim",
 					"vimdoc",
 					"yaml",
+					"svelte"
 				},
 				highlight = {
 					enable = true,
@@ -139,6 +149,9 @@ return {
 					javascriptreact = {
 						require("formatter.filetypes.javascriptreact").prettierd,
 					},
+					json = {
+						require("formatter.filetypes.json").prettierd,
+					}
 				},
 			})
 		end,
