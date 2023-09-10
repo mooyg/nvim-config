@@ -135,10 +135,10 @@ return {
 					["<C-p>"] = cmp.mapping.select_prev_item(),
 					["<C-n>"] = cmp.mapping.select_next_item(),
 				}),
-				 window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-      }
+				window = {
+					completion = cmp.config.window.bordered(),
+					documentation = cmp.config.window.bordered(),
+				},
 			})
 		end,
 	},
@@ -191,43 +191,7 @@ return {
 			{ "<leader>a", desc = "Harpoon add" },
 			{ "<leader>h", desc = "Harpoon menu" },
 		},
-		config = function()
-			require("harpoon")
-			local mark = require("harpoon.mark")
-			local ui = require("harpoon.ui")
-
-			vim.keymap.set("n", "<leader>a", mark.add_file, { desc = "Harpoon a file" })
-			vim.keymap.set("n", "<leader>h", ui.toggle_quick_menu, { desc = "Harpoon menu" })
-			vim.keymap.set("n", "<leader>1", function()
-				ui.nav_file(1)
-			end, { silent = true })
-			vim.keymap.set("n", "<leader>2", function()
-				ui.nav_file(2)
-			end, { silent = true })
-			vim.keymap.set("n", "<leader>3", function()
-				ui.nav_file(3)
-			end, { silent = true })
-			vim.keymap.set("n", "<leader>4", function()
-				ui.nav_file(4)
-			end, { silent = true })
-			vim.keymap.set("n", "<leader>5", function()
-				ui.nav_file(5)
-			end, { silent = true })
-			vim.keymap.set("n", "<leader>6", function()
-				ui.nav_file(6)
-			end, { silent = true })
-			vim.keymap.set("n", "<leader>7", function()
-				ui.nav_file(7)
-			end, { silent = true })
-			vim.keymap.set("n", "<leader>8", function()
-				ui.nav_file(8)
-			end, { silent = true })
-			vim.keymap.set("n", "<leader>9", function()
-				ui.nav_file(9)
-			end, { silent = true })
-			vim.keymap.set("n", "<leader>0", function()
-				ui.nav_file(10)
-			end, { silent = true })
-		end,
+		config = function() end,
 	},
+	{ "L3MON4D3/LuaSnip" },
 }
