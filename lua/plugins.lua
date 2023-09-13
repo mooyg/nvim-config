@@ -259,8 +259,4 @@ return {
 		config = function() end,
 	},
 	{ "L3MON4D3/LuaSnip" },
-	{
-		"wakatime/vim-wakatime",
-		lazy = false
-	},
 }
