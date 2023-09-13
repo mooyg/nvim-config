@@ -52,13 +52,3 @@ end, { silent = true })
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { silent = true })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { silent = true })
 vim.keymap.set({ "n", "v" }, "<leader>vl", require("lsp_lines").toggle, { desc = "Toggle LSP line diagnostics" })
-local opts = {
-  -- This depends on if you want to go inside the window or not
-  focusable = true,
-  close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-  border = "rounded",
-  source = "always",
-  prefix = " ",
-  scope = "cursor",
-}
-vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float(nil, opts) end)

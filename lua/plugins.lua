@@ -6,14 +6,19 @@ return {
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			local on_attach = function(client, bufnr)
 				vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr })
-
-vim.keymap.set("n", "K", vim.lsp.buf.hover, { noremap = true, desc = "[LSP] Hover info", buffer = bufnr })
+				vim.keymap.set(
+					"n",
+					"K",
+					vim.lsp.buf.hover,
+					{ noremap = true, desc = "[LSP] Hover info", buffer = bufnr }
+				)
 				-- other maps
 			end
 
 			require("lspconfig").tsserver.setup({
 				capabilities = capabilities,
 				on_attach = on_attach,
+				disable_formatting = true,
 			})
 			require("lspconfig").tailwindcss.setup({
 				capabilities = capabilities,
@@ -27,20 +32,6 @@ vim.keymap.set("n", "K", vim.lsp.buf.hover, { noremap = true, desc = "[LSP] Hove
 			vim.diagnostic.config({
 				virtual_text = false,
 				virtual_lines = true,
-			})
-			vim.api.nvim_create_autocmd("CursorHold", {
-				buffer = bufnr,
-				callback = function()
-					local opts = {
-						focusable = true,
-						close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-						border = "rounded",
-						source = "always",
-						prefix = " ",
-						scope = "cursor",
-					}
-					vim.diagnostic.open_float(nil, opts)
-				end,
 			})
 		end,
 	},
@@ -126,6 +117,40 @@ vim.keymap.set("n", "K", vim.lsp.buf.hover, { noremap = true, desc = "[LSP] Hove
 			--   If not available, we use `mini` as the fallback
 			"rcarriga/nvim-notify",
 		},
+		config = function()
+			require("noice").setup({
+				views = {
+					cmdline_popup = {
+						position = {
+							row = 5,
+							col = "50%",
+						},
+						size = {
+							width = 60,
+							height = "auto",
+						},
+					},
+					popupmenu = {
+						relative = "editor",
+						position = {
+							row = 8,
+							col = "50%",
+						},
+						size = {
+							width = 60,
+							height = 10,
+						},
+						border = {
+							style = "rounded",
+							padding = { 0, 1 },
+						},
+						win_options = {
+							winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+						},
+					},
+				},
+			})
+		end,
 	},
 	{
 		"williamboman/mason.nvim",
@@ -142,6 +167,7 @@ vim.keymap.set("n", "K", vim.lsp.buf.hover, { noremap = true, desc = "[LSP] Hove
 		},
 		config = function()
 			local cmp = require("cmp")
+			local kind = require("completion-kinds")
 			cmp.setup({
 				sources = {
 					{ name = "nvim_lsp" },
@@ -158,6 +184,20 @@ vim.keymap.set("n", "K", vim.lsp.buf.hover, { noremap = true, desc = "[LSP] Hove
 				window = {
 					completion = cmp.config.window.bordered(),
 					documentation = cmp.config.window.bordered(),
+				},
+				formatting = {
+					format = function(entry, vim_item)
+						-- Kind icons
+						vim_item.kind = string.format("%s ", kind.icons[vim_item.kind]) -- This concatonates the icons with the name of the item kind
+						-- Source
+						vim_item.menu = ({
+							buffer = "[Buffer]",
+							luasnip = "[LuaSnip]",
+							nvim_lua = "[Lua]",
+							latex_symbols = "[LaTeX]",
+						})[entry.source.name]
+						return vim_item
+					end,
 				},
 			})
 		end,
@@ -214,4 +254,8 @@ vim.keymap.set("n", "K", vim.lsp.buf.hover, { noremap = true, desc = "[LSP] Hove
 		config = function() end,
 	},
 	{ "L3MON4D3/LuaSnip" },
+	{
+		"wakatime/vim-wakatime",
+		lazy = false
+	},
 }

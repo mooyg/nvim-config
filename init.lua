@@ -22,9 +22,4 @@ augroup FormatAutogroup
   autocmd BufWritePost * FormatWrite
 augroup END
 ]])
-vim.cmd([[
-augroup FormatAutogroup
-  autocmd!
-  autocmd BufWritePost * FormatWrite
-augroup END
-]])
+
