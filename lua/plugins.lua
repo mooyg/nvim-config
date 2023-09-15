@@ -20,6 +20,9 @@ return {
 				on_attach = on_attach,
 				disable_formatting = true,
 			})
+			require("lspconfig").prismals.setup({
+				capabilities = capabilities
+			})
 			require("lspconfig").tailwindcss.setup({
 				capabilities = capabilities,
 			})
