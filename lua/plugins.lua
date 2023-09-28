@@ -21,7 +21,7 @@ return {
 				disable_formatting = true,
 			})
 			require("lspconfig").prismals.setup({
-				capabilities = capabilities
+				capabilities = capabilities,
 			})
 			require("lspconfig").tailwindcss.setup({
 				capabilities = capabilities,
@@ -32,6 +32,10 @@ return {
 			require("lspconfig").jsonls.setup({
 				capabilities = capabilities,
 			})
+			require("lspconfig").eslint.setup({
+				capabilities = capabilities,
+			})
+
 			vim.diagnostic.config({
 				virtual_text = false,
 				virtual_lines = true,
@@ -154,8 +158,8 @@ return {
 				},
 				presets = {
 					long_message_to_split = true, -- long messages will be sent to a split
-    inc_rename = false, -- enables an input dialog for inc-rename.nvim
-    lsp_doc_border = true, -- add a border to hover docs and signature help
+					inc_rename = false, -- enables an input dialog for inc-rename.nvim
+					lsp_doc_border = true, -- add a border to hover docs and signature help
 				},
 			})
 		end,
@@ -172,6 +176,8 @@ return {
 		"hrsh7th/nvim-cmp",
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
+			"saadparwaiz1/cmp_luasnip",
+			"rafamadriz/friendly-snippets",
 		},
 		config = function()
 			local cmp = require("cmp")
@@ -179,6 +185,7 @@ return {
 			cmp.setup({
 				sources = {
 					{ name = "nvim_lsp" },
+					{ name = "luasnip", keyword_length = 2 },
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-b>"] = cmp.mapping.scroll_docs(-4),
@@ -262,4 +269,19 @@ return {
 		config = function() end,
 	},
 	{ "L3MON4D3/LuaSnip" },
+	{
+		"folke/trouble.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("trouble").setup()
+		end,
+	},
+	{
+		"andweeb/presence.nvim",
+		config = function() 
+			require("presence").setup({
+				auto_update         = true,
+			})
+		end
+	}
 }
