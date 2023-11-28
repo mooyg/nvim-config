@@ -35,6 +35,9 @@ return {
 			require("lspconfig").eslint.setup({
 				capabilities = capabilities,
 			})
+			require("lspconfig").rust_analyzer.setup({
+				capabilities = capabilities,
+			})
 
 			vim.diagnostic.config({
 				virtual_text = false,
@@ -278,10 +281,20 @@ return {
 	},
 	{
 		"andweeb/presence.nvim",
-		config = function() 
+		config = function()
 			require("presence").setup({
-				auto_update         = true,
+				auto_update = true,
 			})
-		end
-	}
+		end,
+	},
+	{
+		"andymass/vim-matchup",
+		event = { "BufReadPost" },
+		init = function()
+			vim.o.matchpairs = "(:),{:},[:]"
+		end,
+		config = function()
+			-- ...
+		end,
+	},
 }
