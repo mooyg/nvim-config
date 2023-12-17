@@ -16,10 +16,12 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins, opts)
 require("defaults")
 require("keymaps")
-vim.cmd([[
-augroup FormatAutogroup
-  autocmd!
-  autocmd BufWritePost * FormatWrite
-augroup END
-]])
+
+local augroup = vim.api.nvim_create_augroup
+local autocmd = vim.api.nvim_create_autocmd
+augroup("__formatter__", { clear = true })
+autocmd("BufWritePost", {
+	group = "__formatter__",
+	command = ":FormatWrite",
+})
 

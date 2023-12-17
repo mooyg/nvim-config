@@ -10,7 +10,7 @@ local wk = require("which-key")
 -- and hide <leader>1
 wk.register({
 	["<leader>ff"] = { "<cmd>Telescope find_files<cr>", "Find Files" },
-	["<leader>fg"] = {"<cmd>Telescope live_grep<cr>", "Grep through files"}
+	["<leader>fg"] = { "<cmd>Telescope live_grep<cr>", "Grep through files" },
 })
 vim.keymap.set("n", "o", "o<esc>")
 vim.keymap.set("n", "<C-B>", "<cmd>NvimTreeToggle<cr>")

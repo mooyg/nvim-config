@@ -181,14 +181,24 @@ return {
 			"hrsh7th/cmp-nvim-lsp",
 			"saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets",
+			"L3MON4D3/LuaSnip",
 		},
 		config = function()
 			local cmp = require("cmp")
 			local kind = require("completion-kinds")
+
+			local luasnip = require("luasnip")
+			require("luasnip.loaders.from_vscode").lazy_load()
+
 			cmp.setup({
 				sources = {
 					{ name = "nvim_lsp" },
 					{ name = "luasnip", keyword_length = 2 },
+				},
+				snippet = {
+					expand = function(args)
+						luasnip.lsp_expand(args.body)
+					end,
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-b>"] = cmp.mapping.scroll_docs(-4),
@@ -198,6 +208,7 @@ return {
 					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 					["<C-p>"] = cmp.mapping.select_prev_item(),
 					["<C-n>"] = cmp.mapping.select_next_item(),
+					["<tab>"] = cmp.mapping.confirm({ select = true }),
 				}),
 				window = {
 					completion = cmp.config.window.bordered(),
@@ -239,6 +250,9 @@ return {
 					},
 					json = {
 						require("formatter.filetypes.json").prettierd,
+					},
+					rust = {
+						require("formatter.filetypes.rust").rustfmt,
 					},
 				},
 			})
