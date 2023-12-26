@@ -38,6 +38,9 @@ return {
 			require("lspconfig").rust_analyzer.setup({
 				capabilities = capabilities,
 			})
+			require("lspconfig").svelte.setup({
+				capabilities = capabilities,
+			})
 
 			vim.diagnostic.config({
 				virtual_text = false,
@@ -232,33 +235,6 @@ return {
 		end,
 	},
 	{
-		"mhartington/formatter.nvim",
-		config = function()
-			require("formatter").setup({
-				filetype = {
-					typescript = {
-						require("formatter.filetypes.typescript").prettierd,
-					},
-					javascript = {
-						require("formatter.filetypes.javascript").prettierd,
-					},
-					typescriptreact = {
-						require("formatter.filetypes.typescriptreact").prettierd,
-					},
-					javascriptreact = {
-						require("formatter.filetypes.javascriptreact").prettierd,
-					},
-					json = {
-						require("formatter.filetypes.json").prettierd,
-					},
-					rust = {
-						require("formatter.filetypes.rust").rustfmt,
-					},
-				},
-			})
-		end,
-	},
-	{
 		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
 		config = function()
 			require("lsp_lines").setup()
@@ -309,6 +285,74 @@ return {
 		end,
 		config = function()
 			-- ...
+		end,
+	},
+	{
+		"MunifTanjim/prettier.nvim",
+		config = function()
+			require("prettier").setup({
+				bin = "prettierd", -- or `'prettierd'` (v0.23.3+)
+				filetypes = {
+					"css",
+					"graphql",
+					"html",
+					"javascript",
+					"javascriptreact",
+					"json",
+					"less",
+					"markdown",
+					"scss",
+					"typescript",
+					"typescriptreact",
+					"yaml",
+					"svelte",
+					"prisma",
+				},
+			})
+		end,
+	},
+	{
+		"jose-elias-alvarez/null-ls.nvim",
+		config = function()
+			local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
+			local event = "BufWritePre" -- or "BufWritePost"
+			local async = event == "BufWritePost"
+			require("null-ls").setup({
+				on_attach = function(client, bufnr)
+					if client.supports_method("textDocument/formatting") then
+						vim.keymap.set("n", "<Leader>f", function()
+							vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
+						end, { buffer = bufnr, desc = "[lsp] format" })
+
+						-- format on save
+						vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
+						vim.api.nvim_create_autocmd(event, {
+							buffer = bufnr,
+							group = group,
+							callback = function()
+								vim.lsp.buf.format({ bufnr = bufnr, async = async })
+							end,
+							desc = "[lsp] format on save",
+						})
+					end
+
+					if client.supports_method("textDocument/rangeFormatting") then
+						vim.keymap.set("x", "<Leader>f", function()
+							vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
+						end, { buffer = bufnr, desc = "[lsp] format" })
+					end
+				end,
+			})
+		end,
+	},
+	{
+		"numToStr/Comment.nvim",
+		opts = {
+			-- add any options here
+		},
+		lazy = false,
+		config = function()
+			require("Comment").setup()
 		end,
 	},
 }
