@@ -16,6 +16,7 @@ vim.keymap.set("n", "o", "o<esc>")
 vim.keymap.set("n", "<C-B>", "<cmd>NvimTreeToggle<cr>")
 vim.keymap.set("n", "<leader>fe", "<cmd>NvimTreeFocus<cr>")
 vim.keymap.set("n", "<leader>ts", "<cmd>LspRestart typescript-language-server<cr>")
+vim.keymap.set("n", "<leader>f", "<cmd>Prettier<cr>")
 local mark = require("harpoon.mark")
 local ui = require("harpoon.ui")
 

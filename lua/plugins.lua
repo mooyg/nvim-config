@@ -38,14 +38,14 @@ return {
 			require("lspconfig").rust_analyzer.setup({
 				capabilities = capabilities,
 			})
-			require("lspconfig").svelte.setup({
-				capabilities = capabilities,
-			})
 
+			require("lspconfig").yamlls.setup({})
 			vim.diagnostic.config({
 				virtual_text = false,
 				virtual_lines = true,
 			})
+
+			require("lspconfig").nixd.setup({})
 		end,
 	},
 	{
@@ -313,37 +313,7 @@ return {
 	},
 	{
 		"jose-elias-alvarez/null-ls.nvim",
-		config = function()
-			local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
-			local event = "BufWritePre" -- or "BufWritePost"
-			local async = event == "BufWritePost"
-			require("null-ls").setup({
-				on_attach = function(client, bufnr)
-					if client.supports_method("textDocument/formatting") then
-						vim.keymap.set("n", "<Leader>f", function()
-							vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-						end, { buffer = bufnr, desc = "[lsp] format" })
-
-						-- format on save
-						vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
-						vim.api.nvim_create_autocmd(event, {
-							buffer = bufnr,
-							group = group,
-							callback = function()
-								vim.lsp.buf.format({ bufnr = bufnr, async = async })
-							end,
-							desc = "[lsp] format on save",
-						})
-					end
-
-					if client.supports_method("textDocument/rangeFormatting") then
-						vim.keymap.set("x", "<Leader>f", function()
-							vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-						end, { buffer = bufnr, desc = "[lsp] format" })
-					end
-				end,
-			})
-		end,
+		config = function() end,
 	},
 	{
 		"numToStr/Comment.nvim",
@@ -353,6 +323,29 @@ return {
 		lazy = false,
 		config = function()
 			require("Comment").setup()
+		end,
+	},
+	{
+		"stevearc/conform.nvim",
+		opts = {},
+		config = function()
+			require("conform").setup({
+				formatters_by_ft = {
+					lua = { "stylua" },
+					-- Conform will run multiple formatters sequentially
+					-- Use a sub-list to run only the first available formatter
+					javascript = { { "prettierd", "prettier" } },
+					typescript = { { "prettierd", "prettier" } },
+					typescriptreact = { { "prettierd", "prettier" } },
+					javascriptreact = { { "prettierd", "prettier" } },
+					svelte = { { "prettierd", "prettier" } },
+				},
+				format_on_save = {
+					-- These options will be passed to conform.format()
+					timeout_ms = 500,
+					lsp_fallback = true,
+				},
+			})
 		end,
 	},
 }
